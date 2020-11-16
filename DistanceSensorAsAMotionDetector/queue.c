@@ -36,19 +36,19 @@ int dequeue(Queue *queue) {
 	return 0;
 }
 
-double sum(Queue *queue) {
+double sum(Queue queue) {
 	double temp = 0.0;
 	int i = 0;
-	for (i = 0; i < queue->currentSize; i++) {
-		temp += queue->data[i];
+	for (i = 0; i < queue.currentSize; i++) {
+		temp += queue.data[i];
 	}
 	return temp;
 }
 
-double movingAverage(Queue *queue) {
+double movingAverage(Queue queue) {
 	double s = sum(queue);
-	if (queue->currentSize != 0) {
-		return s/queue->currentSize;
+	if (queue.currentSize != 0) {
+		return s/queue.currentSize;
 	}
 	return 0;
 }

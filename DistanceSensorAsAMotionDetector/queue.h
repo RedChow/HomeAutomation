@@ -8,5 +8,5 @@ typedef struct queue {
 
 int enqueue(Queue*, double);
 int dequeue(Queue*);
-double sum(Queue*);
-double movingAverage(Queue*);
+double sum(Queue);
+double movingAverage(Queue);
