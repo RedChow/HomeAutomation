@@ -108,6 +108,9 @@ int main(int argc, char **argv) {
 	    bcm2835_gpio_write(TRIGGER, HIGH);
 	    usleep(10);
 	    bcm2835_gpio_write(TRIGGER, LOW);
+		//while loops always need an exit: the current time is measured against
+		//when the loop started; if it takes too long exit out
+		//This will be fine as we'll check for positive distance below.
 	    gettimeofday(&loopCheck, NULL);
 	    while(!bcm2835_gpio_lev(ECHO)) {
 			gettimeofday(&start, NULL);

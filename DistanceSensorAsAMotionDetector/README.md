@@ -1,6 +1,7 @@
 # Using a Distance Sensor As a Motion Detector
 ## Background
 I recently wanted to automate turning on lights when I entered a room or an area in the house. 
+
 But when I went to buy motion detectors or other solutions for automatically turning on lights, I found several issues with many of the products.
 * **Accessible only through the company's app**: It seemed the majority of the units were only accessible through an app desiged by the product manufacturer.
 	* I didn't want or need a dozen different apps for home automation. 
@@ -9,8 +10,6 @@ I'm already using Ignition Maker, which comes with a web/mobile browser module t
 	If I experience an Internet outage, my home automation should still work on the local area network.
 * **Reliant on voice control**: Many had other options for controlling outside of their own app, but were dependent on Alexa, Siri, Google Assistant, or something similar. To me, having to audibly say, "Hey Google" or "Hey Siri" is not
 automation. I shouldn't have to do anything except be enter the area for the lights to turn on.
-Besides, my mind is often wondering around aimlessly so having to think about and executing a voice a command
-would severely disrupt whatever tangent I'm on while entering the kitchen.
 * **Too little control**: A lot of products were plagued by false positives with no mechanism for sensitivity adjustment. Plus, some lacked options for delay on turning the lights on/off.
 * **Expensive**: Others were just flat out too much money. I'm not paying more than $60 for a motion sensor. It should be a really simple product.
 
@@ -20,5 +19,24 @@ However, when I finally decided to buy a motion detector sensor, they were all s
 I have direct control on which distance to use to turn on lights and can set a delay on when to turn them off. Have direct access to the distances picked up by the sensor has
 virtually eliminated false positives. In fact, after a month of using this set up, I've only had one false positive.
 ## Set Up
+### Hardware
+* [HC-SR04](https://www.adafruit.com/product/4007) - Distance sensor
+* [Raspberry Pi Zero W](https://www.raspberrypi.org/products/raspberry-pi-zero-w/) - Built-in wifi makes it easy to set wherever
+* [Sonoff BasicR3 WiFi Switch](https://sonoff.tech/product/wifi-diy-smart-switches/basicr3) - Sonoff BasicR3 WiFi switch that has Tasmota firmware. See [Tasmotizer](https://github.com/tasmota/tasmotizer).
+* Other: 4 Female to female connectors, [Raspberry PI Zero headers](https://www.adafruit.com/product/3413), and a power supply for the Raspberry PI Zero W
+### Software
+* [bcm2835](https://www.airspayce.com/mikem/bcm2835/): C library for reading/writing GPIO
+* [Paho MQTT C Library](https://www.eclipse.org/paho/index.php?page=clients/c/index.php): C library for working with MQTT
+* MQTT broker: There are several options here. I use mosquitto. Ignition Maker edition comes with an MQTT broker that can be used to send and receive MQTT messages, but a third-party client cannot connect to subscribe to messages. Status messages from the C program are sent to mosquitto; Ignition Maker subscribes to topics related to the Sonoff switch. 
+* queue.h/queue.c: data structure for keeping a moving average. Slightly modified traditional Queue data structure for not needing to manually dequeue/remove items; enqueue will always add an item to the queue and remove items as necessary.
+#### controller.c
+C program to control the Sonoff WiFi switch. Some of the code was lifted from example programs from Paho.
+If you want to make changes or modify this program, here are the points:
+* double radius: Controls when moving_average is sent to SCADA. 
+Line 138 "if (abs(moving_average - old_moving_average) > radius) {" is where radius is used. Radius could be enlarged if you want a bigger change before receiving the value in SCADA, or it could be lessened if you want more values coming into SCADA. 
+If you wanted to use a percentage, you could change Line 138 to something like "if (moving_average > 1.1*old_moving_average || moving_average < .9*old_moving_average) {" for sending values that change more than 10%.
 
+## ToDo/Future Plans
+* Broaden the capabilities of the program to allow set points for SCADA, such as distance required to trigger the light, minutes to turn off the light, moving average capacity, and delay between finding distances.
+* Send more statuses back to SCADA such as last communication to broker
 
