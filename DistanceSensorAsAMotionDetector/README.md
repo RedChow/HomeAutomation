@@ -34,7 +34,10 @@ C program to control the Sonoff WiFi switch. Some of the code was lifted from ex
 If you want to make changes or modify this program, here are the points:
 * double radius: Controls when moving_average is sent to SCADA. 
 Line 138 "if (abs(moving_average - old_moving_average) > radius) {" is where radius is used. Radius could be enlarged if you want a bigger change before receiving the value in SCADA, or it could be lessened if you want more values coming into SCADA. 
-If you wanted to use a percentage, you could change Line 138 to something like "if (moving_average > 1.1*old_moving_average || moving_average < .9*old_moving_average) {" for sending values that change more than 10%.
+If you wanted to use a percentage, you could change Line 138 to something like "if (moving_average > 1.1 X old_moving_average || moving_average < .9 X old_moving_average) {" for sending values that change more than 10%. 15% would change 1.1 to 1.15 and .9 to .85, etc.
+* Line 148 "if (moving_average <= 183) {": 183 is the distance to trigger the light turning on. The max distance of the sensor I believe is 450cm or a little over 14 1/2 feet. 
+There are times when I walk by that I don't want to trigger the sensor, so my trigger is set to less than the max.
+* Line 151 "in_the_future = now + 5\*60;"
 
 ## ToDo/Future Plans
 * Broaden the capabilities of the program to allow set points for SCADA, such as distance required to trigger the light, minutes to turn off the light, moving average capacity, and delay between finding distances.
