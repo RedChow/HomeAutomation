@@ -131,11 +131,11 @@ int main(int argc, char **argv) {
 
 	while (kitchenLightSwitch.isConnectedToBroker) {
 		now = time(NULL);
-		
+		in_the_future = false;
 		distance = getDistance();
 		if (distance > 0) {
 			enqueue(queueP, distance);
-	    }
+		}
 		moving_average = movingAverage(queue);
 		//We only send values to SCADA that fall within this range
 		if (abs(moving_average - old_moving_average) >= radius) {
