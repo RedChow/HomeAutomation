@@ -131,8 +131,8 @@ int main(int argc, char **argv) {
 
 	while (kitchenLightSwitch.isConnectedToBroker) {
 		now = time(NULL);
-		in_the_future = false;
 		distance = getDistance();
+		trip_the_lights = false;
 		if (distance > 0) {
 			enqueue(queueP, distance);
 		}
