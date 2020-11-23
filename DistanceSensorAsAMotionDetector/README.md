@@ -31,19 +31,23 @@ virtually eliminated false positives. In fact, after a month of using this set u
 * queue.h/queue.c: data structure for keeping a moving average. Slightly modified traditional Queue data structure for not needing to manually dequeue/remove items; enqueue will always add an item to the queue and remove items as necessary.
 #### controller.c
 C program to control the Sonoff WiFi switch. Some of the code was lifted from example programs from Paho.
-If you want to make changes or modify this program, here are the points:
-* Lines 13 and 14 set the pins. I am using pins 16 and 18. Change these macros to the pins you are using.
+If you want to make changes or modify this program, here are a few highlights:
+* There are several comments beginning with NOTE.
+This is where you will need to change parameters if you want different behavior.
+* Be sure to double check which pins you are using and change the program accordingly.
 * double radius: Controls when moving_average is sent to SCADA. 
-Line 141 "if (abs(moving_average - old_moving_average) >= radius) {" is where radius is used. Radius could be enlarged if you want a bigger change before sending the value to SCADA, or it could be lessened if you want more values coming into SCADA. 
+ "if (abs(moving_average - old_moving_average) >= radius) {" is where radius is used. Radius could be enlarged if you want a bigger change before sending the value to SCADA, or it could be lessened if you want more values coming into SCADA. 
 This also controls the difference in distance in which the lights turn on. I have it currently set to 20cm, which has seemed to work very well for my purposes.
 If you wanted to use a percentage, you could change Line 138 to something like "if (moving_average > 1.1\* old_moving_average || moving_average < .9\*old_moving_average) {" for sending values that change more than 10%. 15% would change 1.1 to 1.15 and .9 to .85, etc.
-* Line 153 "if (moving_average <= 250 && trip_the_lights) {": 
+* "if (moving_average <= 250 && trip_the_lights) {": 
 After testing, 250 is about where I would like the lights to turn on.
 You can change this according to where you want the lights to turn on. 
 The max distance of the sensor is 400cm, which is a little over 14ft. 
-* Line 163 "in_the_future = now + 5\*60;": If you want the light to turn off sooner than 5 min, change this. Resolution is by seconds, so if you want the light to turn off after 30 sec, just change to "in_the_future = now + 30;".
+* "in_the_future = now + 5\*60;": If you want the light to turn off sooner than 5 min, change this. Resolution is by seconds, so if you want the light to turn off after 30 sec, just change to "in_the_future = now + 30;".
+* Compile the program with "gcc -g -o controller ./controller.c queue.c -lbcm2835 -l paho-mqtt3c -lcjson." I usually direct any output to /dev/null, so I use "./controller > /dev/null 2> /dev/null &."
 
-## ToDo/Future Plans
+
+#k ToDo/Future Plans
 * Broaden the capabilities of the program to allow set points for SCADA, such as distance required to trigger the light, minutes to turn off the light, moving average capacity, and delay between finding distances.
 * Send more statuses back to SCADA such as last communication to broker
 * Have a manual mode to be set in SCADA so that the lights can be turned off/on remotely. This might could be useful for simulating activity in the house while away.
@@ -53,3 +57,4 @@ The max distance of the sensor is 400cm, which is a little over 14ft.
 * 2020-11-19: Moved finding the distance to a function outside of the main while loop.
 Added a couple of boolean variables to actually use the distance sensor as a motion detector. 
 I.e., when the difference in distances are greater than the variable radius, the lights will turn on.
+* 2020-11-23: Added the usage of cJSON. cJSON is superb; makes dealing with JSON in C super easy.
