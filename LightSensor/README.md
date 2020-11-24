@@ -29,6 +29,23 @@ I recommend using the BCM2835, as this is what I have been using in my previous 
 
 The library developed by CQRobot also comes with an example main.c file, which is the file I modified to use as control for my lights.
 
+Highlights from the code:
+* The struct lightSensor has three states, note that the program resets to -1 after a night to day cycle.
+  * -1: automatic mode
+  *  0: SCADA override for lights OFF
+  *  1: SCADA override for lights ON
+
+* Comments beginning with "//NOTE:" usually means there is something to change, such as topic namespace or broker IP.
+* To add more topics you would make the following changes:
+  * char *subscription_topics[] = {"CHANGEME", "CHANGEME", "CHANGEME"};
+  * int qos_topics[] = {0, 0, 0}; //or whatever qos you need
+  * MQTTClient_subscribeMany(lightSensorClient, 3, subscription_topics, qos_topics);
+* The cJSON_AddItemToObject(scada_data, TEXT, ...) makes an entry into the JSON dict with key TEXT.
+There are corresponding cJSON_Create###### with ###### being a JSON type.
+
+
+
+
 ## ToDo
 * Not sure if lux or visible light is the way to control the lights.
 Will update as discovery continues.

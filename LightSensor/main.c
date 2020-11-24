@@ -49,7 +49,8 @@ void  Handler(int signo) {
 
 int main(void)
 {
-	char *subscription_topics[] = {"tasmota_4b58fb/stat/RESULT", "tasmota_4b58fb/SCADA/#"};
+	//NOTE (sub topics): change the subscription topics below to your needs
+	char *subscription_topics[] = {"CHANGEME", "CHANGEME"};
 	int qos_topics[] = {0, 0};
 	MQTTClient lightSensorClient;
 	MQTTClient_connectOptions conn_opts_lightSensor = MQTTClient_connectOptions_initializer;
