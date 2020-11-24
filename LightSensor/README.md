@@ -43,7 +43,12 @@ Highlights from the code:
 * The cJSON_AddItemToObject(scada_data, TEXT, ...) makes an entry into the JSON dict with key TEXT.
 There are corresponding cJSON_Create###### with ###### being a JSON type.
 
+## Screenshots
+* Lux readings for one full day
+![lux readings](lux.png)
 
+* Visible readings for one full day
+![visible light](visible_light.png)
 
 
 ## ToDo
