@@ -99,7 +99,8 @@ int main(void)
 		char *message_string = cJSON_Print(scada_data);
 		publish_message.payload = message_string;
 		publish_message.payloadlen = strlen(message_string);
-		MQTTClient_publishMessage(lightSensorClient, "tasmota_4b58fb/SCADA/sensorinfo", &publish_message, &token);
+		//NOTE: CHANGEME = topic namespace to publish message
+		MQTTClient_publishMessage(lightSensorClient, "CHANGEME", &publish_message, &token);
 		rc = MQTTClient_waitForCompletion(lightSensorClient, token, 1000);
 		/*
 		 * When lux > THRESHOLD the sun is rising; lux < THRESHOLD means sun is setting.
@@ -142,7 +143,8 @@ int main(void)
 			if (!frontLightSensor.isOn) {
 				publish_message.payload = "1";
 				publish_message.payloadlen = 1;
-				MQTTClient_publishMessage(lightSensorClient, "tasmota_4b58fb/cmnd/POWER", &publish_message, &token);
+				//NOTE: CHANGEME = topic namespace to publish message
+				MQTTClient_publishMessage(lightSensorClient, "CHANGEME", &publish_message, &token);
 				MQTTClient_waitForCompletion(lightSensorClient, token, 1000);
 			}
 		}
@@ -151,7 +153,8 @@ int main(void)
 			if (frontLightSensor.isOn) {
 				publish_message.payload = "0";
 				publish_message.payloadlen = 1;
-				MQTTClient_publishMessage(lightSensorClient, "tasmota_4b58fb/cmnd/POWER", &publish_message, &token);
+				//NOTE: CHANGEME = topic namespace to publish message
+				MQTTClient_publishMessage(lightSensorClient, "CHANGEME", &publish_message, &token);
 				MQTTClient_waitForCompletion(lightSensorClient, token, 1000);
 			}
 		}
