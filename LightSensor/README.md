@@ -44,6 +44,7 @@ Highlights from the code:
 There are corresponding cJSON_Create###### with ###### being a JSON type.
 
 ## Screenshots
+The following screenshots were taken from graphs created in Ignition Make Editition SCADA.
 * Lux readings for one full day
 ![lux readings](lux.png)
 
