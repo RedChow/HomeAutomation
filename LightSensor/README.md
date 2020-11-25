@@ -55,3 +55,6 @@ The following screenshots were taken from graphs created in Ignition Make Editit
 ## ToDo
 * Not sure if lux or visible light is the way to control the lights.
 Will update as discovery continues.
+
+## Updates
+* 2020-11-24: After a trial run, THRESHOLD set to 10.0 is too low. THRESHOLD is now set to 30.
