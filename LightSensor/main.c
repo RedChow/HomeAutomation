@@ -70,6 +70,13 @@ int main(void)
 	publish_message.qos = 1;
 	publish_message.retained = 0;
 
+	//Query the tasmota device for its current state
+	publish_message.payload = "";
+	publish_message.payloadlen = 0;
+	//NOTE: CHANGEME = topic namespace to publish message
+	MQTTClient_publishMessage(lightSensorClient, "CHANGEME", &publish_message, &token);
+	MQTTClient_waitForCompletion(lightSensorClient, token, 1000);
+
     // Exception handling:ctrl + c
     signal(SIGINT, Handler);
     DEV_ModuleInit();
