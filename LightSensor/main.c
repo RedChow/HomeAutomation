@@ -99,6 +99,11 @@ int main(void)
 		infrared_reading = TSL2591_Read_Infrared();
 		visible_light_reading = TSL2591_Read_Visible();
 		full_spectrum_reading = TSL2591_Read_FullSpectrum();
+		if (lux_reading > 65000) {
+			//If lux_reading > 65000 is out of range, so we delay 30 seconds and then re-read
+			delay(1000*30);
+			continue;
+		}
 
 		cJSON_ReplaceItemInObject(scada_data, "lux", cJSON_CreateNumber(lux_reading));
 		cJSON_ReplaceItemInObject(scada_data, "infrared", cJSON_CreateNumber(infrared_reading));
