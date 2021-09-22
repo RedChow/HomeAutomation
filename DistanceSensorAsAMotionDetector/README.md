@@ -47,7 +47,7 @@ The max distance of the sensor is 400cm, which is a little over 14ft.
 * Compile the program with "gcc -g -o controller ./controller.c queue.c -lbcm2835 -l paho-mqtt3c -lcjson." I usually direct any output to /dev/null, so I use "./controller > /dev/null 2> /dev/null &."
 
 
-#k ToDo/Future Plans
+## ToDo/Future Plans
 * Broaden the capabilities of the program to allow set points for SCADA, such as distance required to trigger the light, minutes to turn off the light, moving average capacity, and delay between finding distances.
 * Send more statuses back to SCADA such as last communication to broker
 * Have a manual mode to be set in SCADA so that the lights can be turned off/on remotely. This might could be useful for simulating activity in the house while away.
@@ -58,3 +58,6 @@ The max distance of the sensor is 400cm, which is a little over 14ft.
 Added a couple of boolean variables to actually use the distance sensor as a motion detector. 
 I.e., when the difference in distances are greater than the variable radius, the lights will turn on.
 * 2020-11-23: Added the usage of cJSON. cJSON is superb; makes dealing with JSON in C super easy.
+* 2021-09-22: Really need to update this code, as there are some problems with it. 
+	* The code exits when MQTT connection is lost and doesn't allow for re-connection attempts.
+	* Should probably take out the sleep method (usleep(10000)) at the end of the main loop and instead check for time differences are above or equal to a preset. 
