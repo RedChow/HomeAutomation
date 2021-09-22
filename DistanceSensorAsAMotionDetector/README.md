@@ -60,4 +60,5 @@ I.e., when the difference in distances are greater than the variable radius, the
 * 2020-11-23: Added the usage of cJSON. cJSON is superb; makes dealing with JSON in C super easy.
 * 2021-09-22: Really need to update this code, as there are some problems with it. 
 	* The code exits when MQTT connection is lost and doesn't allow for re-connection attempts.
-	* Should probably take out the sleep method (usleep(10000)) at the end of the main loop and instead check for time differences are above or equal to a preset. 
+	* Should probably take out the sleep method (usleep(10000)) at the end of the main loop and instead check for time differences are above or equal to a preset.
+	* I have started using Arduino Nano 33 IoT for triggering lights based on distance.
